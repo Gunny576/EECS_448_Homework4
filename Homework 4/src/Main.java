@@ -29,7 +29,7 @@ public class Main {
 						type2[k-23] = sCurrentLine;
 						//System.out.println(sCurrentLine);
 					}
-					if ((k < 63) && (k>43))
+					if ((k < 64) && (k>43))
 					{
 						type3[k-44] = sCurrentLine;
 						//System.out.println(sCurrentLine);

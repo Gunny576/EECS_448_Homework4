@@ -9,13 +9,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 
-import static javax.swing.GroupLayout.Alignment.CENTER;
+import static javax.swing.GroupLayout.Alignment.*;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+import javax.swing.ImageIcon;
 
 import static javax.swing.LayoutStyle.ComponentPlacement.RELATED;
 import static javax.swing.LayoutStyle.ComponentPlacement.UNRELATED;
@@ -41,9 +42,11 @@ public class DisplayDriver extends JFrame
     private JToggleButton travel;
     private JToggleButton softEng;
     private JButton quitButton;
-    //private JPanel display;
+    private JButton addButton;
+    private JButton removeButton;
     
     private JLabel priceLabel;
+    private JLabel selectedItemsLabel;
     private JLabel instructLabel;
     private JList list;
     
@@ -62,6 +65,8 @@ public class DisplayDriver extends JFrame
     private static double[] price = new double[3];
     
     private static boolean[] buttonOn = new boolean[3];
+    
+    ImageIcon addToCart, removeFromCart;
 
     public DisplayDriver(String[][] data) {
     	Database = data;
@@ -103,7 +108,7 @@ public class DisplayDriver extends JFrame
         
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         GraphicsEnvironment ge =
             GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -115,24 +120,38 @@ public class DisplayDriver extends JFrame
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    cost = totalPrice(list.getSelectedIndices());
-                    priceLabel.setText("Total Cart Value: $" + String.format("%.2f", cost));
+                    //cost = totalPrice(list.getSelectedIndices());
+                    //priceLabel.setText("Total Cart Value: $" + String.format("%.2f", cost));
+                	int numElements = list.getSelectedIndices().length;
+                	selectedItemsLabel.setText("Books selected: " + numElements);
                 }
             }
         });
 
         JScrollPane pane = new JScrollPane();
         pane.getViewport().add(list);
-        pane.setPreferredSize(new Dimension(450, 300));
+        pane.setPreferredSize(new Dimension(300, 300));
         panel.add(pane);
         
         instructLabel = new JLabel("Select one or more genres:");
         instructLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         
+        addToCart = new ImageIcon("images/add-to-cart.jpg");
+        removeFromCart = new ImageIcon("images/remove-from-cart.jpg");
+        addButton = new JButton(addToCart);
+        addButton.setActionCommand("add to cart");
+        addButton.setToolTipText("Add to cart");
+        removeButton = new JButton(removeFromCart);
+        removeButton.setActionCommand("remove from cart");
+        removeButton.setToolTipText("Remove from cart");
+        
+        selectedItemsLabel = new JLabel("Books selected: 0");
+        selectedItemsLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        
         priceLabel = new JLabel("Total Cart Value: $" + String.format("%.2f", cost));
         priceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
         
-        createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, priceLabel);
+        createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, addButton, selectedItemsLabel);
         
         setTitle("Bookstore");
         setLocationRelativeTo(null);
@@ -156,12 +175,13 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[3])
                     .addComponent(arg[4]))
                 .addPreferredGap(UNRELATED)
-                .addGroup(gl.createParallelGroup()
+                .addGroup(gl.createParallelGroup(CENTER)
                     .addComponent(arg[5])
-                    .addComponent(arg[6]))
+                    .addComponent(arg[6])
+                    .addComponent(arg[7]))
         );
 
-        gl.setVerticalGroup(gl.createParallelGroup(CENTER)
+        gl.setVerticalGroup(gl.createParallelGroup(LEADING)
                 .addGroup(gl.createSequentialGroup()
                     .addComponent(arg[0])
                     .addComponent(arg[1])
@@ -171,7 +191,8 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[4]))  
                 .addGroup(gl.createSequentialGroup()
                     .addComponent(arg[5])
-                    .addComponent(arg[6]))
+                    .addComponent(arg[6])
+                    .addComponent(arg[7]))
         );        
         
         gl.linkSize(sciFi, travel, softEng, quitButton);
