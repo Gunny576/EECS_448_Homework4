@@ -1,7 +1,6 @@
 
 public class Controller {
 	ShoppingCart SCart = new ShoppingCart();
-	DisplayDriver DD = new DisplayDriver();
 	public Controller()
 	{
 		
@@ -9,7 +8,12 @@ public class Controller {
 	public void run(String[][] database)
 	{
 		//get input
+	   String[][] blaaa = {{"SciFi 1", "SciFi 2"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "},
+            {"Travel 1", "Travel 2"},
+            {"SoE 1", "SoE 2"}};
 		
+                DisplayDriver newView = new DisplayDriver(blaaa);
+                newView.setVisible(true);              
 		int inputType =0;
 		int inputbook = 0;
 		int inputgenre =0;

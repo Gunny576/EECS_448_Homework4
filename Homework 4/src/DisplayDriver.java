@@ -6,15 +6,20 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.GroupLayout;
+
 import static javax.swing.GroupLayout.Alignment.CENTER;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+
 import static javax.swing.LayoutStyle.ComponentPlacement.RELATED;
 import static javax.swing.LayoutStyle.ComponentPlacement.UNRELATED;
+
 import javax.swing.border.LineBorder;
 
 import java.awt.BorderLayout;
@@ -57,8 +62,18 @@ public class DisplayDriver extends JFrame
     
     private static boolean[] buttonOn = new boolean[3];
 
-    public DisplayDriver() {
+    public DisplayDriver(String[][] data) {
+    	{
+    		Database = data;
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
 
+                }
+            });
+        
+        initUI();
+    }
         initUI();
     }
 

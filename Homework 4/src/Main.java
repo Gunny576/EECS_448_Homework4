@@ -9,30 +9,32 @@ public class Main {
 
 		    
 			BufferedReader br = null;
-			 
+			 if (true)
+			 {
 			try {
 	 
 				String sCurrentLine;
 	 
-				br = new BufferedReader(new FileReader("C:\\Users\\Gunny576\\workspace\\Homework4\\database.txt"));
+				br = new BufferedReader(new FileReader("H:\\EECS_448\\Homework 4\\testEnviroment\\src\\Database.txt"));
 				int k = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
-					if ((k < 21) && (k>1))
-					{
-						type1[k-1] = sCurrentLine;
-						//System.out.println(sCurrentLine);
-					}
-					if ((k < 42) && (k>22))
-					{
-						type2[k-22] = sCurrentLine;
-						//System.out.println(sCurrentLine);
-					}
-					if ((k < 53) && (k>43))
-					{
-						type3[k-43] = sCurrentLine;
-						//System.out.println(sCurrentLine);
-					}
 					k++;
+					if ((k <= 21) && (k>1))
+					{
+						type1[k-2] = sCurrentLine;
+						//System.out.println(sCurrentLine);
+					}
+					if ((k < 43) && (k>22))
+					{
+						type2[k-23] = sCurrentLine;
+						//System.out.println(sCurrentLine);
+					}
+					if ((k < 63) && (k>43))
+					{
+						type3[k-44] = sCurrentLine;
+						//System.out.println(sCurrentLine);
+					}
+					
 				}
 				
 			
@@ -45,6 +47,7 @@ public class Main {
 					ex.printStackTrace();
 				}
 			}
+		}
 		String[][] Database = {type1, type2, type3};	
 		Controller control = new Controller();
 		control.run(Database);
