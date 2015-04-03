@@ -43,7 +43,8 @@ public class DisplayDriver extends JFrame
     private JButton quitButton;
     //private JPanel display;
     
-    private JLabel label;
+    private JLabel priceLabel;
+    private JLabel instructLabel;
     private JList list;
     
     private double cost;
@@ -63,17 +64,7 @@ public class DisplayDriver extends JFrame
     private static boolean[] buttonOn = new boolean[3];
 
     public DisplayDriver(String[][] data) {
-    	{
-    		Database = data;
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });
-        
-        initUI();
-    }
+    	Database = data;
         initUI();
     }
 
@@ -125,22 +116,25 @@ public class DisplayDriver extends JFrame
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     cost = totalPrice(list.getSelectedIndices());
-                    label.setText("Total Cart Value: $" + String.format("%.2f", cost));
+                    priceLabel.setText("Total Cart Value: $" + String.format("%.2f", cost));
                 }
             }
         });
 
         JScrollPane pane = new JScrollPane();
         pane.getViewport().add(list);
-        pane.setPreferredSize(new Dimension(250, 200));
+        pane.setPreferredSize(new Dimension(450, 300));
         panel.add(pane);
         
-        label = new JLabel("Total Cart Value: $" + String.format("%.2f", cost));
-        label.setFont(new Font("Serif", Font.PLAIN, 18));
+        instructLabel = new JLabel("Select one or more genres:");
+        instructLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         
-        createLayout(sciFi, travel, softEng, quitButton, panel, label);
+        priceLabel = new JLabel("Total Cart Value: $" + String.format("%.2f", cost));
+        priceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
         
-        setTitle("View");
+        createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, priceLabel);
+        
+        setTitle("Bookstore");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -159,11 +153,12 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[0])
                     .addComponent(arg[1])
                     .addComponent(arg[2])
-                    .addComponent(arg[3]))
+                    .addComponent(arg[3])
+                    .addComponent(arg[4]))
                 .addPreferredGap(UNRELATED)
                 .addGroup(gl.createParallelGroup()
-                    .addComponent(arg[4])
-                    .addComponent(arg[5]))
+                    .addComponent(arg[5])
+                    .addComponent(arg[6]))
         );
 
         gl.setVerticalGroup(gl.createParallelGroup(CENTER)
@@ -171,11 +166,12 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[0])
                     .addComponent(arg[1])
                     .addComponent(arg[2])
+                    .addComponent(arg[3])
                     .addGap(10, 30, 30)
-                    .addComponent(arg[3]))  
+                    .addComponent(arg[4]))  
                 .addGroup(gl.createSequentialGroup()
-                    .addComponent(arg[4])
-                    .addComponent(arg[5]))
+                    .addComponent(arg[5])
+                    .addComponent(arg[6]))
         );        
         
         gl.linkSize(sciFi, travel, softEng, quitButton);

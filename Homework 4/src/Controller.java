@@ -1,3 +1,5 @@
+import java.awt.EventQueue;
+
 
 public class Controller {
 	ShoppingCart SCart = new ShoppingCart();
@@ -5,15 +7,15 @@ public class Controller {
 	{
 		
 	}
-	public void run(String[][] database)
+	public void run(final String[][] database)
 	{
-		//get input
-	   String[][] blaaa = {{"SciFi 1", "SciFi 2"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "},
-            {"Travel 1", "Travel 2"},
-            {"SoE 1", "SoE 2"}};
-		
-                DisplayDriver newView = new DisplayDriver(blaaa);
-                newView.setVisible(true);              
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+		    public void run() {
+		        DisplayDriver newView = new DisplayDriver(database);
+		        newView.setVisible(true);
+		    }
+		});             
 		int inputType =0;
 		int inputbook = 0;
 		int inputgenre =0;
