@@ -12,7 +12,7 @@ public class Controller {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 		    public void run() {
-		        DisplayDriver newView = new DisplayDriver(database);
+		        DisplayDriver newView = new DisplayDriver(database, SCart);
 		        newView.setVisible(true);
 		    }
 		});             

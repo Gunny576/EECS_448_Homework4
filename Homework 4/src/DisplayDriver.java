@@ -49,6 +49,7 @@ public class DisplayDriver extends JFrame
     private JLabel selectedItemsLabel;
     private JLabel instructLabel;
     private JList list;
+    private JList cartList;
     
     private double cost;
     
@@ -67,9 +68,12 @@ public class DisplayDriver extends JFrame
     private static boolean[] buttonOn = new boolean[3];
     
     ImageIcon addToCart, removeFromCart;
+    
+    ShoppingCart SCart;
 
-    public DisplayDriver(String[][] data) {
+    public DisplayDriver(String[][] data, ShoppingCart cart) {
     	Database = data;
+    	SCart = cart;
         initUI();
     }
 
@@ -109,6 +113,10 @@ public class DisplayDriver extends JFrame
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        
+        JPanel cartPanel = new JPanel();
+        cartPanel.setLayout(new BorderLayout());
+        cartPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         GraphicsEnvironment ge =
             GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -127,11 +135,18 @@ public class DisplayDriver extends JFrame
                 }
             }
         });
+        
+        cartList = new JList(SCart.getList());
 
         JScrollPane pane = new JScrollPane();
         pane.getViewport().add(list);
         pane.setPreferredSize(new Dimension(300, 300));
         panel.add(pane);
+        
+        JScrollPane cartPane = new JScrollPane();
+        cartPane.getViewport().add(cartList);
+        cartPane.setPreferredSize(new Dimension(300, 300));
+        cartPanel.add(cartPane);
         
         instructLabel = new JLabel("Select one or more genres:");
         instructLabel.setFont(new Font("Serif", Font.PLAIN, 14));
@@ -141,9 +156,11 @@ public class DisplayDriver extends JFrame
         addButton = new JButton(addToCart);
         addButton.setActionCommand("add to cart");
         addButton.setToolTipText("Add to cart");
+        addButton.addActionListener(this);
         removeButton = new JButton(removeFromCart);
         removeButton.setActionCommand("remove from cart");
         removeButton.setToolTipText("Remove from cart");
+        removeButton.addActionListener(this);
         
         selectedItemsLabel = new JLabel("Books selected: 0");
         selectedItemsLabel.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -151,7 +168,7 @@ public class DisplayDriver extends JFrame
         priceLabel = new JLabel("Total Cart Value: $" + String.format("%.2f", cost));
         priceLabel.setFont(new Font("Serif", Font.PLAIN, 18));
         
-        createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, addButton, selectedItemsLabel);
+        createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, addButton, selectedItemsLabel, cartPanel, removeButton, priceLabel);
         
         setTitle("Bookstore");
         setLocationRelativeTo(null);
@@ -179,6 +196,11 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[5])
                     .addComponent(arg[6])
                     .addComponent(arg[7]))
+                .addPreferredGap(UNRELATED)
+                .addGroup(gl.createParallelGroup(CENTER)
+                	.addComponent(arg[8])
+                	.addComponent(arg[9])
+                	.addComponent(arg[10]))
         );
 
         gl.setVerticalGroup(gl.createParallelGroup(LEADING)
@@ -193,6 +215,10 @@ public class DisplayDriver extends JFrame
                     .addComponent(arg[5])
                     .addComponent(arg[6])
                     .addComponent(arg[7]))
+                .addGroup(gl.createSequentialGroup()
+                	.addComponent(arg[8])
+                	.addComponent(arg[9])
+                	.addComponent(arg[10]))
         );        
         
         gl.linkSize(sciFi, travel, softEng, quitButton);
@@ -210,6 +236,10 @@ public class DisplayDriver extends JFrame
                 sciFiBooks = EMPTY_ARRAY;
             }
             buttonOn[0] = !buttonOn[0];
+            
+            books = concatAll(sciFiBooks, travelBooks, softEngBooks);
+            
+            list.setListData(books);
         }
         
         if (e.getActionCommand().equals("Travel")) {
@@ -219,6 +249,10 @@ public class DisplayDriver extends JFrame
                 travelBooks = EMPTY_ARRAY;
             }
             buttonOn[1] = !buttonOn[1];
+            
+            books = concatAll(sciFiBooks, travelBooks, softEngBooks);
+            
+            list.setListData(books);
         }
         
         if (e.getActionCommand().equals("Software Engineering")) {
@@ -228,11 +262,22 @@ public class DisplayDriver extends JFrame
                 softEngBooks = EMPTY_ARRAY;
             }
             buttonOn[2] = !buttonOn[2];
+            
+            books = concatAll(sciFiBooks, travelBooks, softEngBooks);
+            
+            list.setListData(books);
         }
         
-        books = concatAll(sciFiBooks, travelBooks, softEngBooks);
+        if (e.getActionCommand().equals("add to cart")) {
+        	for(int i = 0; i < list.getSelectedIndices().length; i++) {
+        		SCart.add(list.getSelectedValuesList().get(i).toString(), itemPrice(list.getSelectedIndices()[i]));
+        		//System.out.println(list.getSelectedValuesList().get(i).toString());
+            }
+        	//System.out.println("Total: $" + String.format("%.2f", SCart.getTotal()));
+        	cartList.setListData(SCart.getList());
+        	priceLabel.setText("Total Cart Value: $" + String.format("%.2f", SCart.getTotal()));
+        }
         
-        list.setListData(books);
     }
 
     public static <T> T[] concatAll(T[] first, T[]... rest) {
@@ -270,5 +315,26 @@ public class DisplayDriver extends JFrame
         }
         
         return total;
+    }
+    
+    public static double itemPrice(int x) {
+        double iPrice = 0.0;
+    	int[] numBooks = new int[3];
+        for(int i = 0; i < numBooks.length; i++) {
+            if(buttonOn[i]){
+                numBooks[i] = Database[i].length;
+            } else {
+                numBooks[i] = 0;
+            }
+        }
+        if(x < numBooks[0]) {
+            iPrice = price[0];
+        } else if(x < numBooks[0] + numBooks[1]) {
+            iPrice = price[1];
+        } else {
+            iPrice = price[2];
+            }
+        
+        return iPrice;
     }
 }

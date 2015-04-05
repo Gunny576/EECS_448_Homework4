@@ -1,23 +1,23 @@
 import java.util.*;
 public class ShoppingCart {
-public int total;
+public double total;
 List cart = new ArrayList();
 int index;
 int index_item;
 	public ShoppingCart()
 	{
-		total = 0;
+		total = 0.0;
 		index = 0;
 	}
 	
-	public void add(String item, int price)
+	public void add(String item, double price)
 	{
 		total = total + price;
 		cart.add(index,item);
 		index++;
 	}
 	
-	public void remove(String item, int price)
+	public void remove(String item, double price)
 	{
 		total = total - price;
 		index_item = cart.indexOf(item);
@@ -25,7 +25,7 @@ int index_item;
 		index --;
 	}
 
-	public int getTotal()
+	public double getTotal()
 	{
 		return total;
 	}
