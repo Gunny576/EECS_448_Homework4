@@ -288,7 +288,7 @@ public class DisplayDriver extends JFrame
         if (e.getActionCommand().equals("remove from cart")) {
         	for(int i = 0; i < cartList.getSelectedIndices().length; i++) {
         		String temp = cartList.getSelectedValuesList().get(i).toString();
-        		SCart.remove(temp.substring(temp.indexOf(") ") + 2), itemPrice(cartList.getSelectedIndices()[i]));
+        		SCart.remove(temp.substring(temp.indexOf(") ") + 2), itemPrice(temp.substring(temp.indexOf(") ") + 2)));
         		//SCart.remove(cartList.getSelectedIndices()[i], itemPrice(cartList.getSelectedIndices()[i]));
         		//System.out.println(list.getSelectedValuesList().get(i).toString());
             }
@@ -358,6 +358,19 @@ public class DisplayDriver extends JFrame
         } else {
             iPrice = price[2];
             }
+        
+        return iPrice;
+    }
+    
+    public static double itemPrice(String item) {
+        double iPrice = 0.0;
+        for (int i = 0; i < 3; i++) {
+        	for (int j = 0; j < Database[i].length; j++) {
+        		if (item.equals(Database[i][j])) {
+        			iPrice = price[i];
+        		}
+        	}
+        }
         
         return iPrice;
     }
