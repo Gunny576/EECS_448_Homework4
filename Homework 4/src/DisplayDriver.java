@@ -50,6 +50,8 @@ public class DisplayDriver extends JFrame
     private JLabel instructLabel;
     private JList list;
     private JList cartList;
+    private String[] cartItemList;
+    private String[] cartQtyList;
     
     private double cost;
     
@@ -274,7 +276,29 @@ public class DisplayDriver extends JFrame
         		//System.out.println(list.getSelectedValuesList().get(i).toString());
             }
         	//System.out.println("Total: $" + String.format("%.2f", SCart.getTotal()));
-        	cartList.setListData(SCart.getList());
+        	cartItemList = SCart.getList();
+        	cartQtyList = SCart.getQtyList();
+        	for (int i = 0; i < cartItemList.length; i++) {
+        		cartItemList[i] = "(x" + cartQtyList[i] + ") " + cartItemList[i];
+        	}
+        	cartList.setListData(cartItemList);
+        	priceLabel.setText("Total Cart Value: $" + String.format("%.2f", SCart.getTotal()));
+        }
+        
+        if (e.getActionCommand().equals("remove from cart")) {
+        	for(int i = 0; i < cartList.getSelectedIndices().length; i++) {
+        		String temp = cartList.getSelectedValuesList().get(i).toString();
+        		SCart.remove(temp.substring(temp.indexOf(") ") + 2), itemPrice(cartList.getSelectedIndices()[i]));
+        		//SCart.remove(cartList.getSelectedIndices()[i], itemPrice(cartList.getSelectedIndices()[i]));
+        		//System.out.println(list.getSelectedValuesList().get(i).toString());
+            }
+        	//System.out.println("Total: $" + String.format("%.2f", SCart.getTotal()));
+        	cartItemList = SCart.getList();
+        	cartQtyList = SCart.getQtyList();
+        	for (int i = 0; i < cartItemList.length; i++) {
+        		cartItemList[i] = "(x" + cartQtyList[i] + ") " + cartItemList[i];
+        	}
+        	cartList.setListData(cartItemList);
         	priceLabel.setText("Total Cart Value: $" + String.format("%.2f", SCart.getTotal()));
         }
         
