@@ -15,7 +15,8 @@ public class Main {
 	 
 				String sCurrentLine;
 	 
-				br = new BufferedReader(new FileReader("src/database.txt"));
+				//br = new BufferedReader(new FileReader("src/database.txt"));
+				br = new BufferedReader(new FileReader("database.txt"));
 				int k = 0;
 				while ((sCurrentLine = br.readLine()) != null) {
 					k++;

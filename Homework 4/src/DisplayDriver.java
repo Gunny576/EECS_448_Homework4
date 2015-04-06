@@ -154,8 +154,10 @@ public class DisplayDriver extends JFrame
         instructLabel = new JLabel("Select one or more genres:");
         instructLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         
-        addToCart = new ImageIcon("images/add-to-cart.jpg");
-        removeFromCart = new ImageIcon("images/remove-from-cart.jpg");
+        //addToCart = new ImageIcon("images/add-to-cart.jpg");
+        //removeFromCart = new ImageIcon("images/remove-from-cart.jpg");
+        addToCart = new ImageIcon("add-to-cart.jpg");
+        removeFromCart = new ImageIcon("remove-from-cart.jpg");
         addButton = new JButton(addToCart);
         addButton.setActionCommand("add to cart");
         addButton.setToolTipText("Add to cart");
