@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -142,12 +143,12 @@ public class DisplayDriver extends JFrame
 
         JScrollPane pane = new JScrollPane();
         pane.getViewport().add(list);
-        pane.setPreferredSize(new Dimension(300, 300));
+        pane.setPreferredSize(new Dimension(500, 500));
         panel.add(pane);
         
         JScrollPane cartPane = new JScrollPane();
         cartPane.getViewport().add(cartList);
-        cartPane.setPreferredSize(new Dimension(300, 300));
+        cartPane.setPreferredSize(new Dimension(500, 500));
         cartPanel.add(cartPane);
         
         instructLabel = new JLabel("Select one or more genres:");
@@ -172,7 +173,7 @@ public class DisplayDriver extends JFrame
         
         createLayout(instructLabel, sciFi, travel, softEng, quitButton, panel, addButton, selectedItemsLabel, cartPanel, removeButton, priceLabel);
         
-        setTitle("Bookstore");
+        setTitle("Bookstore by Group 8 - Orme, Sievert, Brouhard, and Kraus");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -180,6 +181,7 @@ public class DisplayDriver extends JFrame
     private void createLayout(JComponent... arg) {
         
         Container pane = getContentPane();
+        pane.setPreferredSize( Toolkit.getDefaultToolkit().getScreenSize());
         GroupLayout gl = new GroupLayout(pane);
         pane.setLayout(gl);          
         
